@@ -1,0 +1,19 @@
+load("//tools:defaults.bzl", "ts_library")
+
+ts_library(
+    name = "tests",
+    testonly = True,
+    srcs = glob(["**/*.ts"]),
+    data = [
+        "//tests/legacy-cli/e2e/ng-snapshot",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tests/legacy-cli/e2e/utils",
+        "@npm//@types/express",
+        "@npm//@types/semver",
+        "@npm//express",
+        "@npm//fast-glob",
+        "@npm//semver",
+    ],
+)

@@ -1,0 +1,28 @@
+{
+  "name": "@angular/ssr",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Angular server side rendering utilities",
+  "license": "MIT",
+  "homepage": "https://github.com/angular/angular-cli",
+  "keywords": [
+    "angular",
+    "ssr",
+    "universal"
+  ],
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "dependencies": {
+    "critters": "0.0.22",
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^18.0.0 || ^18.1.0-next.0",
+    "@angular/core": "^18.0.0 || ^18.1.0-next.0"
+  },
+  "schematics": "./schematics/collection.json",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular/angular-cli.git"
+  }
+}

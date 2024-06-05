@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2022",
+    "lib": ["es2022"],
+    "rootDir": ".",
+    "rootDirs": [".", "./dist-schema/bin/"],
+    "paths": {
+      "@angular-devkit/core/node": ["./packages/angular_devkit/core/node/index"],
+      "@angular-devkit/core/node/testing": ["./packages/angular_devkit/core/node/testing/index"],
+      "@angular-devkit/schematics/tasks": ["./packages/angular_devkit/schematics/tasks/index"],
+      "@angular-devkit/schematics/tasks/node": [
+        "./packages/angular_devkit/schematics/tasks/node/index"
+      ],
+      "@angular-devkit/schematics/tools": ["./packages/angular_devkit/schematics/tools/index"],
+      "@angular-devkit/schematics/testing": ["./packages/angular_devkit/schematics/testing/index"],
+      "@angular-devkit/architect/testing": ["./packages/angular_devkit/architect/testing/index"],
+      "@angular-devkit/*": ["./packages/angular_devkit/*/src"],
+      "@angular/*": ["./packages/angular/*/src"],
+      "@angular/build/private": ["./packages/angular/build/src/private"],
+      "@ngtools/webpack": ["./packages/ngtools/webpack/src"],
+      "@schematics/angular": ["./packages/schematics/angular"]
+    },
+    "plugins": [
+      {
+        "name": "@bazel/tsetse",
+        // must-use-promises is handled by the eslint @typescript-eslint/no-floating-promises rule
+        "disabledRules": ["must-type-assert-json-parse", "must-use-promises"]
+      }
+    ]
+  },
+  "bazelOptions": {
+    "suppressTsconfigOverrideWarnings": true
+  },
+  "exclude": [
+    "packages/angular_devkit/build_angular/src/babel-bazel.d.ts",
+    "dist/**/*",
+    "dist-schema/**",
+    "goldens/**/*",
+    "**/node_modules/**/*",
+    "**/third_party/**/*",
+    "packages/angular_devkit/schematics_cli/blank/*-files/**/*",
+    "packages/angular_devkit/schematics_cli/schematic/files/**/*",
+    "packages/angular_devkit/*/test/**/*",
+    "tests/**/*",
+    ".ng-dev/**/*"
+  ]
+}

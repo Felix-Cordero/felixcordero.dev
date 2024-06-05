@@ -1,0 +1,99 @@
+load("@npm//@angular/build-tooling/bazel/api-golden:index.bzl", "api_golden_test_npm_package")
+load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
+load("//tools:defaults.bzl", "pkg_npm", "ts_library")
+
+# Copyright Google Inc. All Rights Reserved.
+#
+# Use of this source code is governed by an MIT-style license that can be
+# found in the LICENSE file at https://angular.io/license
+package(default_visibility = ["//visibility:public"])
+
+licenses(["notice"])
+
+# @angular-devkit/schematics
+
+ts_library(
+    name = "schematics",
+    package_name = "@angular-devkit/schematics",
+    srcs = glob(
+        include = ["src/**/*.ts"],
+        exclude = [
+            "src/**/*_spec.ts",
+        ],
+    ),
+    data = [
+        "package.json",
+    ],
+    module_name = "@angular-devkit/schematics",
+    module_root = "src/index.d.ts",
+    deps = [
+        "//packages/angular_devkit/core",
+        "//packages/angular_devkit/core/node",  # TODO: get rid of this for 6.0
+        "@npm//@types/node",
+        "@npm//jsonc-parser",
+        "@npm//magic-string",
+        "@npm//rxjs",
+    ],
+)
+
+# @external_begin
+
+ts_library(
+    name = "schematics_test_lib",
+    testonly = True,
+    srcs = glob(["src/**/*_spec.ts"]),
+    deps = [
+        ":schematics",
+        "//packages/angular_devkit/core",
+        "//packages/angular_devkit/core/node",
+        "//packages/angular_devkit/schematics/testing",
+        "@npm//rxjs",
+    ],
+)
+
+jasmine_node_test(
+    name = "schematics_test",
+    srcs = [":schematics_test_lib"],
+    deps = [
+        "@npm//jasmine",
+        "@npm//source-map",
+    ],
+)
+
+genrule(
+    name = "license",
+    srcs = ["//:LICENSE"],
+    outs = ["LICENSE"],
+    cmd = "cp $(execpath //:LICENSE) $@",
+)
+
+pkg_npm(
+    name = "npm_package",
+    pkg_deps = [
+        "//packages/angular_devkit/core:package.json",
+    ],
+    tags = ["release-package"],
+    deps = [
+        ":README.md",
+        ":collection-schema.json",
+        ":license",
+        ":schematics",
+        "//packages/angular_devkit/schematics/tasks",
+        "//packages/angular_devkit/schematics/tasks:package.json",
+        "//packages/angular_devkit/schematics/testing",
+        "//packages/angular_devkit/schematics/testing:package.json",
+        "//packages/angular_devkit/schematics/tools:package.json",
+    ],
+)
+
+api_golden_test_npm_package(
+    name = "schematics_api",
+    data = [
+        ":npm_package",
+        "//goldens:public-api",
+    ],
+    golden_dir = "angular_cli/goldens/public-api/angular_devkit/schematics",
+    npm_package = "angular_cli/packages/angular_devkit/schematics/npm_package",
+    types = ["@npm//@types/node"],
+)
+# @external_end

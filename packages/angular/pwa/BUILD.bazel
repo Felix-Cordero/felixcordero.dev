@@ -1,0 +1,75 @@
+# Copyright Google Inc. All Rights Reserved.
+#
+# Use of this source code is governed by an MIT-style license that can be
+# found in the LICENSE file at https://angular.io/license
+
+load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
+load("//tools:defaults.bzl", "pkg_npm", "ts_library")
+load("//tools:ts_json_schema.bzl", "ts_json_schema")
+
+licenses(["notice"])
+
+package(default_visibility = ["//visibility:public"])
+
+ts_library(
+    name = "pwa",
+    package_name = "@angular/pwa",
+    srcs = [
+        "pwa/index.ts",
+        "//packages/angular/pwa:pwa/schema.ts",
+    ],
+    data = glob(
+        include = [
+            "collection.json",
+            "pwa/schema.json",
+            "pwa/files/**/*",
+        ],
+    ),
+    deps = [
+        "//packages/angular_devkit/schematics",
+        "//packages/schematics/angular",
+        "@npm//@types/node",
+        "@npm//parse5-html-rewriting-stream",
+    ],
+)
+
+ts_json_schema(
+    name = "pwa_schema",
+    src = "pwa/schema.json",
+)
+
+ts_library(
+    name = "pwa_test_lib",
+    testonly = True,
+    srcs = glob(["pwa/**/*_spec.ts"]),
+    deps = [
+        ":pwa",
+        "//packages/angular_devkit/schematics/testing",
+    ],
+)
+
+jasmine_node_test(
+    name = "pwa_test",
+    srcs = [":pwa_test_lib"],
+)
+
+genrule(
+    name = "license",
+    srcs = ["//:LICENSE"],
+    outs = ["LICENSE"],
+    cmd = "cp $(execpath //:LICENSE) $@",
+)
+
+pkg_npm(
+    name = "npm_package",
+    pkg_deps = [
+        "//packages/angular_devkit/schematics:package.json",
+        "//packages/schematics/angular:package.json",
+    ],
+    tags = ["release-package"],
+    deps = [
+        ":README.md",
+        ":license",
+        ":pwa",
+    ],
+)

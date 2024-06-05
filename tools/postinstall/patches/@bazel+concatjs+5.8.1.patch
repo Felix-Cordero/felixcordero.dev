@@ -1,0 +1,29 @@
+diff --git a/node_modules/@bazel/concatjs/internal/build_defs.bzl b/node_modules/@bazel/concatjs/internal/build_defs.bzl
+index 9e5cda6..6c45196 100755
+--- a/node_modules/@bazel/concatjs/internal/build_defs.bzl
++++ b/node_modules/@bazel/concatjs/internal/build_defs.bzl
+@@ -76,7 +76,7 @@ _TYPESCRIPT_TYPINGS = Label(
+     "//typescript:typescript__typings",
+ )
+ 
+-_TYPESCRIPT_SCRIPT_TARGETS = ["es3", "es5", "es2015", "es2016", "es2017", "es2018", "es2019", "es2020", "esnext"]
++_TYPESCRIPT_SCRIPT_TARGETS = ["es3", "es5", "es2015", "es2016", "es2017", "es2018", "es2019", "es2020", "es2022", "esnext"]
+ _TYPESCRIPT_MODULE_KINDS = ["none", "commonjs", "amd", "umd", "system", "es2015", "esnext"]
+ 
+ _DEVMODE_TARGET_DEFAULT = "es2015"
+diff --git a/node_modules/@bazel/concatjs/internal/common/tsconfig.bzl b/node_modules/@bazel/concatjs/internal/common/tsconfig.bzl
+index b01c999..ec3e4cc 100755
+--- a/node_modules/@bazel/concatjs/internal/common/tsconfig.bzl
++++ b/node_modules/@bazel/concatjs/internal/common/tsconfig.bzl
+@@ -278,11 +278,6 @@ def create_tsconfig(
+         "declarationDir": "/".join([workspace_path, outdir_path]),
+         "stripInternal": True,
+ 
+-        # Embed source maps and sources in .js outputs
+-        "inlineSourceMap": True,
+-        "inlineSources": True,
+-        # Implied by inlineSourceMap: True
+-        "sourceMap": False,
+     }
+ 
+     # "node_modules" still checked for backward compat for ng_module

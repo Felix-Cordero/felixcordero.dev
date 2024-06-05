@@ -1,0 +1,36 @@
+# Copyright Google Inc. All Rights Reserved.
+#
+# Use of this source code is governed by an MIT-style license that can be
+# found in the LICENSE file at https://angular.io/license
+
+load("//tools:defaults.bzl", "pkg_npm", "ts_library")
+
+licenses(["notice"])
+
+ts_library(
+    name = "create",
+    package_name = "@angular/create",
+    srcs = ["src/index.ts"],
+    deps = [
+        "//packages/angular/cli:angular-cli",
+        "@npm//@types/node",
+    ],
+)
+
+genrule(
+    name = "license",
+    srcs = ["//:LICENSE"],
+    outs = ["LICENSE"],
+    cmd = "cp $(execpath //:LICENSE) $@",
+)
+
+pkg_npm(
+    name = "npm_package",
+    tags = ["release-package"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":README.md",
+        ":create",
+        ":license",
+    ],
+)
