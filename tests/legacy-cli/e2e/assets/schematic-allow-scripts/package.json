@@ -1,5 +1,0 @@
-{
-  "name": "allow-scripts",
-  "version": "0.0.1",
-  "schematics": "./collection.json"
-}

@@ -1,5 +1,0 @@
-{
-  "name": "schematic-boolean-option",
-  "version": "0.0.1",
-  "schematics": "./collection.json"
-}
